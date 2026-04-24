@@ -70,26 +70,33 @@ const totalCerts = certificateAlbums.reduce(
   setSending(true);
 
   try {
+    const res = await fetch(
+      `${import.meta.env.VITE_API_URL}/contact`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, message })
+      }
+    );
 
-    const res = await fetch("https://portfolio-email-backend-ssz5.onrender.com/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ email, message })
-    });
+    let data;
+    try {
+      data = await res.json();
+    } catch {
+      data = null;
+    }
 
-    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data?.message || "Failed");
+    }
 
-    if (res.ok) {
-  toast({ title: "Message sent successfully!" });
-  form.reset();
-} else {
-  toast({ title: "Failed to send message" });
-}
+    toast({ title: "Message sent successfully!" });
+    form.reset();
 
   } catch (error) {
-    toast({ title: "Server error" });
+    toast({ title: "Server error or failed request" });
   }
 
   setSending(false);

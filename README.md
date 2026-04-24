@@ -1,5 +1,5 @@
 
-## [About me](https://github.com/devmique/devmique)
+## [About me](https://github.com/Dryex-yo/My-Portfolio)
 
 
 
@@ -7,7 +7,7 @@
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/devmique/my-portfolio
+git clone https://github.com/Dryex-yo/My-Portfolio
 # 2. Install dependencies
 npm install
 
