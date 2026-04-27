@@ -20,7 +20,7 @@ export const certificateAlbums: CertificateAlbum[] = [
     issuer: "freeCodeCamp",
     color: "217 91% 60%",
     certificates: [
-      { id: "c1", title: "Responsive Web Design", issueDate: "Aug 2025", image: c1 }
+      { id: "c1", title: "Responsive Web Design", issueDate: "Jan 2026", image: c1 }
     ],
   }
 ];

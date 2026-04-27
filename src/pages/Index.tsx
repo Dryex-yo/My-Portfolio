@@ -17,7 +17,8 @@ import s15 from "@/assets/skills/postgre.png";
 import s16 from "@/assets/skills/Laravel.png";
 import p1 from "@/assets/projects/project-1.jpg";
 import p2 from "@/assets/projects/project-2.jpg";
-import resume from "@/assets/Johnlord_Mique_resume.pdf";
+import p3 from "@/assets/projects/project-3.jpg";
+import resume from "@/assets/Dery_Supriyadi_resume.pdf";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -200,7 +201,7 @@ const duplicatedSkills = [...skills, ...skills];
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a href="#projects"><Button>View Projects</Button></a>
-              <a href={resume} download="johnlord_mique_resume.pdf"><Button variant="outline"><Download className="h-4 w-4 mr-2"/>Download CV</Button></a>
+              <a href={resume} download="dery_supriyadi_resume.pdf"><Button variant="outline"><Download className="h-4 w-4 mr-2"/>Download CV</Button></a>
                <a href="https://github.com/Dryex-yo"><Button><Github/>Github</Button></a>
               <a href="https://www.linkedin.com/in/dery-supriyadi/"><Button variant="outline"><Linkedin />LinkedIn</Button></a>
             </div>
@@ -218,7 +219,9 @@ const duplicatedSkills = [...skills, ...skills];
         </header>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[{img:p1,title:" DryShop — Modern E-commerce Ecosystem", desc: "A sophisticated full-stack e-commerce platform built with the VILT stack. Featuring a seamless single-page application experience, it integrates secure payment processing, real-time inventory management, and a dynamic shopping cart system, all managed through a powerful Laravel backend and a reactive React frontend.", glink:"https://github.com/Dryex-yo/Modern-Ecommerce-Laravel-React-Inertia", llink:"", tech:["Laravel", "React.js", "Inertia.js", "Tailwind CSS", "MySQL"]},
-          {img:p2,title:" CareerPath — Job Search & Filtering Portal", desc: "A dynamic job search application focused on high-speed filtering and seamless career discovery. Built to handle complex queries, it allows users to filter opportunities by category, type, and location with real-time updates, providing a smooth and responsive interface for job seekers.", glink:"https://github.com/Dryex-yo/search-job-app", llink:"", tech: ["Vue.js", "Inertia.js", "Laravel", "Tailwind CSS", "MySQL"]}].map((p, i) => (
+          {img:p2,title:" CareerPath — Job Search & Filtering Portal", desc: "A dynamic job search application focused on high-speed filtering and seamless career discovery. Built to handle complex queries, it allows users to filter opportunities by category, type, and location with real-time updates, providing a smooth and responsive interface for job seekers.", glink:"https://github.com/Dryex-yo/search-job-app", llink:"", tech: ["Vue.js", "Inertia.js", "Laravel", "Tailwind CSS", "MySQL"]},
+          {img:p3,title:"WhatsApp Clone — Real-time Chat UI Application",desc:"A WhatsApp-inspired chat interface built with a modern UI, featuring responsive design and interactive messaging layout. Designed to replicate core messaging experience for learning front-end development and UI structuring.",glink:"https://github.com/Dryex-yo/whatsapp-clone",llink:"",tech:["React.js","CSS","TypeScript","laravel","Tailwind CSS","Inertia.js","PostgreSQL"]},
+        ].map((p, i) => (
 
             <Card key={i} className="overflow-hidden transition-transform hover:scale-[1.02]">
               <CardContent className="p-0">
@@ -293,7 +296,7 @@ const duplicatedSkills = [...skills, ...skills];
 
       <footer className="border-t">
         <div className="container px-4 py-10 text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Johnlord T. Mique. All rights reserved.
+          © {new Date().getFullYear()} Dery Supriyadi. All rights reserved.
         </div>
       </footer>
     </main>
