@@ -19,7 +19,7 @@ npm run dev
 
 
 
-the backend folder is separated: [portfolio-email-backend](https://github.com/devmique/portfolio-email-backend)
+the backend folder is separated: [portfolio-email-backend](https://github.com/Dryex-yo/portfolio-email-backend)
 
 ---
 
