@@ -59,49 +59,54 @@ const totalCerts = certificateAlbums.reduce(
 );
 
   /* Email submission */
- const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  const form = e.currentTarget;
-  const email = (form.elements.namedItem("email") as HTMLInputElement).value;
-  const message = (form.elements.namedItem("message") as HTMLTextAreaElement).value;
+    const form = e.currentTarget;
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+    const message = (form.elements.namedItem("message") as HTMLTextAreaElement).value;
 
-  if (!email || !message) return;
+    if (!email || !message) return;
 
-  setSending(true);
+    setSending(true);
 
-  try {
-    const res = await fetch(
-      `${import.meta.env.VITE_API_URL}/contact`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ email, message })
-      }
-    );
+    const API_URL =
+    import.meta.env.VITE_API_URL ||
+    "https://portfolio-email-backend-production-597d.up.railway.app/";
 
-    let data;
     try {
-      data = await res.json();
-    } catch {
-      data = null;
+      const res = await fetch(
+        `${API_URL}/api/contact`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ email, message })
+        }
+      );
+
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        data = null;
+      }
+
+      if (!res.ok) {
+        throw new Error(data?.error || "Failed");
+      }
+
+      toast({ title: "Message sent successfully!" });
+      form.reset();
+
+    } catch (error) {
+      console.error(error);
+      toast({ title: "Server error or failed request" });
     }
 
-    if (!res.ok) {
-      throw new Error(data?.message || "Failed");
-    }
-
-    toast({ title: "Message sent successfully!" });
-    form.reset();
-
-  } catch (error) {
-    toast({ title: "Server error or failed request" });
-  }
-
-  setSending(false);
-};
+    setSending(false);
+  };
 
   const skills = [
   { src: s1, alt: "html", name: "HTML" },
