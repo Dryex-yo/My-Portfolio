@@ -180,7 +180,8 @@ const duplicatedSkills = [...skills, ...skills];
              Hi, I'm Dery Supriyadi
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">
-            IT Undergraduate specialized in Full-stack Development. I craft efficient software solutions by blending performance with seamless user experiences. Passionate about problem-solving and modern web architecture.</p>
+            A results-driven Full-stack Developer and Management graduate with a strong technical foundation in the VILT Stack (Vite, Inertia.js, Laravel, Tailwind CSS). A self-taught programmer with a proven ability to build scalable web applications and real-time communication tools. Leveraging a professional background in Management and Digital Marketing to build technology solutions that are not only high-performing but also aligned with business objectives and market data.
+            </p>
             <br></br>
             <div className="skills-wrapper">
       <div className="skills">
