@@ -18,6 +18,9 @@ import s16 from "@/assets/skills/Laravel.png";
 import p1 from "@/assets/projects/project-1.jpg";
 import p2 from "@/assets/projects/project-2.jpg";
 import p3 from "@/assets/projects/project-3.jpg";
+import nabatiLogo from "@/assets/workexperience/nabati.png";
+import metaLogo from "@/assets/workexperience/meta.png";
+import dapodikLogo from "@/assets/workexperience/dapodik.png";
 import resumeID from "@/assets/CV_Dery_Supriyadi_ID.pdf";
 import resumeEN from "@/assets/CV_Dery_Supriyadi_EN.pdf";
 import { Button } from "@/components/ui/button";
@@ -211,6 +214,7 @@ const duplicatedSkills = [...skills, ...skills];
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a href="#projects"><Button>View Projects</Button></a>
+              <a href="#workexperience"><Button>View Experience</Button></a>
               <div className="inline-flex items-center rounded-md border border-input bg-background text-sm font-medium hover:bg-accent hover:text-accent-foreground">
               <a href={currentResume} download={fileName} className="flex items-center px-4 py-2">
                 <Download className="h-4 w-4 mr-2" />
@@ -262,6 +266,80 @@ const duplicatedSkills = [...skills, ...skills];
                   <a href={p.glink}><Button variant="outline" className="text-muted-foreground"><Github/>Github Repo</Button></a>
                   {p.llink && <a href={p.llink}><Button variant="outline" className="text-muted-foreground"><SquareArrowOutUpRightIcon/>Live Demo</Button></a> }
                 </div>                
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </Section>
+
+            {/* workexprience */}
+      <Section id="workexperience">
+        <header className="mb-8">
+          <h2 className="text-3xl font-semibold tracking-tight">Work Experience</h2>
+          <p className="text-muted-foreground mt-2">My professional journey and key accomplishments.</p>
+        </header>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[{
+            img: nabatiLogo,
+            company: "PT Kaldu Sari Nabati Indonesia",
+            role: "Production Helper",
+            period: "May 2025 – Dec 2025",
+            desc: "Operated high-speed production machinery while strict adherence to safety (K3) and product quality standards. Contributed to efficient workflow management in a fast-paced manufacturing environment.",
+            skills: ["Quality Control (QC)", "Workplace Safety (K3)", "GMP", "Workflow Management"]
+          },
+          {
+            img: metaLogo,
+            company: "CV Media Data Putra",
+            role: "Social Media Advertising",
+            period: "Jan 2021 – Apr 2025",
+            desc: "Managed large-scale ad campaigns across Meta Ads, Google Ads, and TikTok Ads. Utilized data analytics to optimize ad spend and refine target audience segmentation.",
+            skills: ["Performance Marketing", "Meta Ads", "Google Ads", "TikTok Ads", "Budget Optimization"]
+          },
+          {
+            img: dapodikLogo,
+            company: "SDN 008 Malinau Kota",
+            role: "School Operator / Admin",
+            period: "Jan 2018 – Feb 2020",
+            desc: "Managed the national educational information system (Dapodik) for school administration. Coordinated official correspondence and digital reporting for district/regency education offices.",
+            skills: ["Dapodik System", "Database Management", "Data Verification", "Digital Records"]
+          },
+        ].map((p, i) => (
+
+            <Card key={i} className="overflow-hidden transition-transform hover:scale-[1.02]">
+              <CardContent className="p-0">
+                {/* Container Logo dengan Background dan Object Contain agar Logo Utuh */}
+                <div className="w-full h-36 bg-muted/30 p-6 flex items-center justify-center border-b">
+                  <img 
+                    src={p.img} 
+                    alt={`${p.company} logo`} 
+                    loading="lazy" 
+                    className="max-h-full max-w-full object-contain" 
+                  />
+                </div>
+
+                <div className="p-5 text-center">
+                  {/* Nama Perusahaan & Role */}
+                  <h3 className="font-semibold text-lg">{p.role}</h3>
+                  <p className="text-sm font-medium text-primary mt-0.5">{p.company}</p>
+                  
+                  {/* Periode Kerja */}
+                  <p className="text-xs text-muted-foreground mt-1 font-mono">{p.period}</p>
+
+                  {/* Deskripsi */}
+                  <p className="text-sm text-muted-foreground mt-3 leading-relaxed">{p.desc}</p>
+
+                  {/* List Skill Badges */}
+                  <div className="mt-4 flex flex-wrap justify-center items-center gap-1.5">
+                    {p.skills?.map((value, idx) => (
+                      <span 
+                        key={idx} 
+                        className="text-muted-foreground px-2.5 py-1 text-xs bg-secondary rounded-md border"
+                      >
+                        {value}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </CardContent>
             </Card>
