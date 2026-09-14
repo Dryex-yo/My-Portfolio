@@ -184,7 +184,7 @@ const duplicatedSkills = [...skills, ...skills];
           </div>
           <div className="text-left">
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-             Hi, I'm Dery Supriyadi
+             Hi, I'm Dery Supriyadi, S.M.
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">
               A results-driven Full-stack Developer and Management graduate (GPA 3.38/4.00) with hands-on experience in full-stack web development (VILT Stack: Vite, Inertia.js, Laravel, React/Tailwind CSS), performance marketing, and digital operations. Proven track record in building scalable applications, managing large-scale ad campaigns across Meta, Google, and TikTok Ads, and handling national educational database systems. Combines strategic management expertise with practical software engineering to deliver high-performing, business-aligned tech solutions.

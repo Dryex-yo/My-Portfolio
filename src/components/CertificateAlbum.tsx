@@ -9,35 +9,39 @@ interface Props {
 }
 
 const CertificateAlbum = ({ album, isOpen, onToggle }: Props) => {
-  const coverImage = album.certificates[0].image;
-  const stackImages = album.certificates.slice(1, 3);
+  // Safe Fallback jika certificates kosong
+  const certificates = album.certificates || [];
+  const coverImage = certificates[0]?.image || "";
+  const stackImages = certificates.slice(1, 3);
 
   return (
     <div className="w-full">
       {/* Album Card - Stacked Look */}
       <button
+        type="button"
         onClick={onToggle}
-        className="relative w-full cursor-pointer group focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-xl"
+        className="relative w-full cursor-pointer group focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-xl text-left"
         aria-expanded={isOpen}
       >
         {/* Stacked layers behind */}
-        {!isOpen && stackImages.map((cert, i) => (
-          <div
-            key={cert.id}
-            className="absolute inset-0 rounded-xl bg-card border border-border overflow-hidden"
-            style={{
-              transform: `rotate(${(i + 1) * (i % 2 === 0 ? 2.5 : -2)}deg) translateY(${(i + 1) * -4}px)`,
-              zIndex: stackImages.length - i,
-              opacity: 0.6 + i * 0.15,
-            }}
-          >
-            <img
-              src={cert.image}
-              alt=""
-              className="w-full h-full object-cover opacity-40"
-            />
-          </div>
-        ))}
+        {!isOpen &&
+          stackImages.map((cert, i) => (
+            <div
+              key={cert.id}
+              className="absolute inset-0 rounded-xl bg-card border border-border overflow-hidden"
+              style={{
+                transform: `rotate(${(i + 1) * (i % 2 === 0 ? 2.5 : -2)}deg) translateY(${(i + 1) * -4}px)`,
+                zIndex: stackImages.length - i,
+                opacity: 0.6 + i * 0.15,
+              }}
+            >
+              <img
+                src={cert.image}
+                alt=""
+                className="w-full h-full object-cover opacity-40"
+              />
+            </div>
+          ))}
 
         {/* Main cover card */}
         <motion.div
@@ -46,28 +50,37 @@ const CertificateAlbum = ({ album, isOpen, onToggle }: Props) => {
           whileTap={{ scale: 0.98 }}
           transition={{ type: "spring", stiffness: 400, damping: 25 }}
         >
-          <div className="aspect-[4/3] overflow-hidden">
-            <img
-              src={coverImage}
-              alt={`${album.issuer} certificate`}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            />
+          <div className="aspect-[4/3] overflow-hidden bg-muted">
+            {coverImage ? (
+              <img
+                src={coverImage}
+                alt={`${album.issuer} certificate`}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">
+                No Preview
+              </div>
+            )}
           </div>
 
           {/* Album info overlay */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-foreground/80 via-foreground/40 to-transparent p-4 pt-12">
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 pt-12">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Award className="w-5 h-5 text-primary-foreground" style={{ color: `hsl(${album.color})` }} />
-                <h3 className="text-lg font-semibold text-card" style={{ fontFamily: "var(--font-heading)" }}>
+                <Award className="w-5 h-5" style={{ color: `hsl(${album.color})` }} />
+                <h3
+                  className="text-lg font-semibold text-white"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
                   {album.issuer}
                 </h3>
               </div>
               <span
-                className="px-2.5 py-0.5 rounded-full text-xs font-medium text-card"
+                className="px-2.5 py-0.5 rounded-full text-xs font-medium text-white"
                 style={{ backgroundColor: `hsl(${album.color})` }}
               >
-                {album.certificates.length} Certificates
+                {certificates.length} {certificates.length === 1 ? "Certificate" : "Certificates"}
               </span>
             </div>
           </div>
@@ -85,7 +98,7 @@ const CertificateAlbum = ({ album, isOpen, onToggle }: Props) => {
             className="overflow-hidden"
           >
             <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {album.certificates.map((cert, index) => (
+              {certificates.map((cert, index) => (
                 <motion.div
                   key={cert.id}
                   initial={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -94,7 +107,7 @@ const CertificateAlbum = ({ album, isOpen, onToggle }: Props) => {
                   transition={{ delay: index * 0.08, type: "spring", stiffness: 350, damping: 25 }}
                   className="rounded-lg bg-card border border-border overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 group/cert"
                 >
-                  <div className="aspect-[4/3] overflow-hidden">
+                  <div className="aspect-[4/3] overflow-hidden bg-muted">
                     <img
                       src={cert.image}
                       alt={cert.title}
@@ -102,7 +115,10 @@ const CertificateAlbum = ({ album, isOpen, onToggle }: Props) => {
                     />
                   </div>
                   <div className="p-3">
-                    <p className="text-sm font-medium text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
+                    <p
+                      className="text-sm font-medium text-foreground"
+                      style={{ fontFamily: "var(--font-heading)" }}
+                    >
                       {cert.title}
                     </p>
                     <p className="text-xs text-muted-foreground mt-0.5">{cert.issueDate}</p>
