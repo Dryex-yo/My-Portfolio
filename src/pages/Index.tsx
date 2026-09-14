@@ -429,7 +429,7 @@ const duplicatedSkills = [...skills, ...skills];
 
       <footer className="border-t">
         <div className="container px-4 py-10 text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Dery Supriyadi,S.M.  All rights reserved.
+          © {new Date().getFullYear()} Dery Supriyadi, S.M. All rights reserved.
         </div>
       </footer>
     </main>
