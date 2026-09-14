@@ -30,13 +30,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { useInView } from "@/hooks/use-in-view";
 import { Typewriter } from "@/components/Typewriter";
 import { Mail, Linkedin, Github, SquareArrowOutUpRightIcon, Download, Copy, Check, Send } from "lucide-react";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useEffect } from "react";
 import { toast } from "@/hooks/use-toast";
 import "@/App.css";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import CertificateAlbum from "@/components/CertificateAlbum";
 import { certificateAlbums } from "@/data/certificates";
 
+interface IndexProps {
+  lang?: "ID" | "EN";
+  onLangChange?: (lang: "ID" | "EN") => void;
+}
 const Section = ({ id, children, className = "" }: { id: string; children: React.ReactNode; className?: string }) => {
   const { ref, inView } = useInView<HTMLDivElement>();
   return (
@@ -46,9 +50,14 @@ const Section = ({ id, children, className = "" }: { id: string; children: React
   );
 };
 
-export default function Index() {
+export default function Index({ lang: externalLang = "ID", onLangChange }: IndexProps) {
   const [sending, setSending] = useState(false);
-  const [lang, setLang] = useState<"ID" | "EN">("ID");
+  const [lang, setLang] = useState<"ID" | "EN">(externalLang);
+  useEffect(() => {
+    if (externalLang) {
+      setLang(externalLang);
+    }
+  }, [externalLang]);
 
   const currentResume = lang === "ID" ? resumeID : resumeEN;
   const fileName = `CV_Dery_Supriyadi_${lang}.pdf`;
@@ -174,7 +183,7 @@ const duplicatedSkills = [...skills, ...skills];
           </div>
           <div className="text-left">
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-             Hi, I'm Dery Supriyadi, S.M.
+             Hi, I'm Dery Supriyadi
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">
               A results-driven Full-stack Developer and Management graduate (GPA 3.38/4.00) with hands-on experience in full-stack web development (VILT Stack: Vite, Inertia.js, Laravel, React/Tailwind CSS), performance marketing, and digital operations. Proven track record in building scalable applications, managing large-scale ad campaigns across Meta, Google, and TikTok Ads, and handling national educational database systems. Combines strategic management expertise with practical software engineering to deliver high-performing, business-aligned tech solutions.
@@ -212,7 +221,11 @@ const duplicatedSkills = [...skills, ...skills];
               </a>
               <select 
                 value={lang} 
-                onChange={(e) => setLang(e.target.value as "ID" | "EN")} 
+                onChange={(e) => {
+                  const newLang = e.target.value as "ID" | "EN";
+                  setLang(newLang);
+                  if (onLangChange) onLangChange(newLang); 
+                }}
                 className="bg-transparent pr-3 py-2 text-xs font-semibold cursor-pointer outline-none border-l border-input"
               >
                 <option value="ID">ID</option>
