@@ -18,7 +18,8 @@ import s16 from "@/assets/skills/Laravel.png";
 import p1 from "@/assets/projects/project-1.jpg";
 import p2 from "@/assets/projects/project-2.jpg";
 import p3 from "@/assets/projects/project-3.jpg";
-import resume from "@/assets/Dery_Supriyadi_resume.pdf";
+import resumeID from "@/assets/CV_Dery_Supriyadi_ID.pdf";
+import resumeEN from "@/assets/CV_Dery_Supriyadi_EN.pdf";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -44,7 +45,10 @@ const Section = ({ id, children, className = "" }: { id: string; children: React
 
 export default function Index() {
   const [sending, setSending] = useState(false);
+  const [lang, setLang] = useState<"ID" | "EN">("ID");
 
+  const currentResume = lang === "ID" ? resumeID : resumeEN;
+  const fileName = `CV_Dery_Supriyadi_${lang}.pdf`;
 
   const [openAlbumId, setOpenAlbumId] = useState<string | null>(null);
  
@@ -207,8 +211,21 @@ const duplicatedSkills = [...skills, ...skills];
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a href="#projects"><Button>View Projects</Button></a>
-              <a href={resume} download="dery_supriyadi_resume.pdf"><Button variant="outline"><Download className="h-4 w-4 mr-2"/>Download CV</Button></a>
-               <a href="https://github.com/Dryex-yo"><Button><Github/>Github</Button></a>
+              <div className="inline-flex items-center rounded-md border border-input bg-background text-sm font-medium hover:bg-accent hover:text-accent-foreground">
+              <a href={currentResume} download={fileName} className="flex items-center px-4 py-2">
+                <Download className="h-4 w-4 mr-2" />
+                Download CV
+              </a>
+              <select 
+                value={lang} 
+                onChange={(e) => setLang(e.target.value as "ID" | "EN")} 
+                className="bg-transparent pr-3 py-2 text-xs font-semibold cursor-pointer outline-none border-l border-input"
+              >
+                <option value="ID">ID</option>
+                <option value="EN">EN</option>
+              </select>
+            </div>  
+              <a href="https://github.com/Dryex-yo"><Button><Github/>Github</Button></a>
               <a href="https://www.linkedin.com/in/dery-supriyadi/"><Button variant="outline"><Linkedin />LinkedIn</Button></a>
             </div>
           </div>
