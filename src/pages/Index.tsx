@@ -29,7 +29,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useInView } from "@/hooks/use-in-view";
 import { Typewriter } from "@/components/Typewriter";
-import { Mail, Linkedin, Github, SquareArrowOutUpRightIcon, Download, Copy, Check, Send } from "lucide-react";
+import { Linkedin, Github, SquareArrowOutUpRightIcon, Download, Copy, Send } from "lucide-react";
 import { FormEvent, useState, useEffect } from "react";
 import { toast } from "@/hooks/use-toast";
 import "@/App.css";
@@ -41,6 +41,106 @@ interface IndexProps {
   lang?: "ID" | "EN";
   onLangChange?: (lang: "ID" | "EN") => void;
 }
+
+const translations = {
+  ID: {
+    portraitAlt: "Potret Dery Supriyadi",
+    greeting: "Hai, saya Dery Supriyadi",
+    introduction: "Full-stack Developer dan lulusan Manajemen (IPK 3,38/4,00) yang berorientasi pada hasil, dengan pengalaman langsung dalam pengembangan web full-stack (VILT Stack: Vite, Inertia.js, Laravel, React/Tailwind CSS), performance marketing, dan operasional digital. Berpengalaman membangun aplikasi yang scalable, mengelola kampanye iklan berskala besar di Meta, Google, dan TikTok Ads, serta menangani sistem database pendidikan nasional. Menggabungkan keahlian manajemen strategis dengan kemampuan software engineering untuk menghasilkan solusi teknologi yang berkinerja tinggi dan selaras dengan kebutuhan bisnis.",
+    rolePrefix: "Saya seorang",
+    roles: ["Pengembang Web Full-Stack",
+    "Spesialis VILT Stack",
+    "Pengembang Laravel & React",
+    "Spesialis Performance Marketing",
+    "Profesional Manajemen & Operasional",
+    "Pengembang Aplikasi Real-time"],
+    viewProjects: "Lihat Proyek",
+    viewExperience: "Lihat Pengalaman",
+    downloadCv: "Unduh CV",
+    projects: "Proyek",
+    projectsDescription: "Studi kasus dan eksperimen pilihan.",
+    githubRepo: "Repo Github",
+    liveDemo: "Demo Langsung",
+    workExperience: "Pengalaman Kerja",
+    workDescription: "Perjalanan profesional dan pencapaian utama saya.",
+    certifications: "Sertifikasi",
+    certificate: "Sertifikat",
+    certificates: "Sertifikat",
+    noPreview: "Pratinjau Tidak Tersedia",
+    certificationDescription: (total: number, platforms: number) => `${total} sertifikat dari ${platforms} platform - pilihan dari proses belajar yang berkelanjutan.`,
+    contact: "Kontak",
+    contactDescription: "Terbuka untuk tantangan baru, peran teknis, dan berbagai peluang karier. Mari terhubung!",
+    email: "Email",
+    message: "Pesan",
+    messagePlaceholder: "Ceritakan peluang, proyek, atau posisi yang ingin Anda isi...",
+    sending: "Mengirim...",
+    sendMessage: "Kirim Pesan",
+    directEmail: "Atau hubungi saya langsung:",
+    copyEmail: "Salin Email",
+    messageSent: "Pesan berhasil dikirim!",
+    messageFailed: "Pesan gagal dikirim. Silakan coba lagi.",
+    emailCopied: "Email disalin ke clipboard!",
+    projectsList: [
+      { title: "DryShop - Ekosistem E-commerce Modern", desc: "Platform e-commerce full-stack yang dibangun dengan VILT stack. Menghadirkan pengalaman single-page application dengan pemrosesan pembayaran yang aman, manajemen inventaris real-time, dan keranjang belanja dinamis melalui backend Laravel serta frontend React yang reaktif." },
+      { title: "CareerPath - Portal Pencarian dan Filter Lowongan", desc: "Aplikasi pencarian kerja dengan fokus pada filtering cepat dan pencarian karier yang mulus. Pengguna dapat memfilter lowongan berdasarkan kategori, tipe, dan lokasi dengan pembaruan real-time." },
+      { title: "WhatsApp Clone - Aplikasi UI Chat Real-time", desc: "Antarmuka chat bergaya WhatsApp dengan UI modern, desain responsif, dan layout pesan interaktif. Dibuat untuk mempelajari pengembangan frontend dan penyusunan UI." },
+    ],
+    experience: [
+      { role: "Production Helper", period: "Mei 2025 - Des 2025", desc: "Mengoperasikan mesin produksi berkecepatan tinggi dengan mematuhi standar keselamatan (K3) dan kualitas produk. Berkontribusi pada pengelolaan alur kerja yang efisien di lingkungan manufaktur yang cepat." },
+      { role: "Social Media Advertising", period: "Jan 2021 - Apr 2025", desc: "Mengelola kampanye iklan berskala besar di Meta Ads, Google Ads, dan TikTok Ads. Menggunakan analitik data untuk mengoptimalkan belanja iklan dan menyempurnakan segmentasi audiens." },
+      { role: "Operator / Admin Sekolah", period: "Jan 2018 - Feb 2020", desc: "Mengelola sistem informasi pendidikan nasional (Dapodik) untuk administrasi sekolah. Mengoordinasikan surat resmi dan pelaporan digital untuk dinas pendidikan kabupaten." },
+    ],
+  },
+  EN: {
+    portraitAlt: "Portrait of Dery Supriyadi",
+    greeting: "Hi, I'm Dery Supriyadi",
+    introduction: "A results-driven Full-stack Developer and Management graduate (GPA 3.38/4.00) with hands-on experience in full-stack web development (VILT Stack: Vite, Inertia.js, Laravel, React/Tailwind CSS), performance marketing, and digital operations. Proven track record in building scalable applications, managing large-scale ad campaigns across Meta, Google, and TikTok Ads, and handling national educational database systems. Combines strategic management expertise with practical software engineering to deliver high-performing, business-aligned tech solutions.",
+    rolePrefix: "I'm a",
+    roles: ["Full-Stack Web Developer",
+    "VILT Stack Specialist",
+    "Laravel & React Developer",
+    "Performance Marketing Specialist",
+    "Management & Operations Professional",
+    "Real-time App Developer"],
+    viewProjects: "View Projects",
+    viewExperience: "View Experience",
+    downloadCv: "Download CV",
+    projects: "Projects",
+    projectsDescription: "Selected case studies and experiments.",
+    githubRepo: "Github Repo",
+    liveDemo: "Live Demo",
+    workExperience: "Work Experience",
+    workDescription: "My professional journey and key accomplishments.",
+    certifications: "Certifications",
+    certificate: "Certificate",
+    certificates: "Certificates",
+    noPreview: "No Preview",
+    certificationDescription: (total: number, platforms: number) => `${total} certificates across ${platforms} platforms - highlights from ongoing learning.`,
+    contact: "Contact",
+    contactDescription: "Open to new challenges, technical roles, and diverse career opportunities. Let's connect!",
+    email: "Email",
+    message: "Message",
+    messagePlaceholder: "Tell me about the opportunity, project, or role you're looking to fill...",
+    sending: "Sending...",
+    sendMessage: "Send Message",
+    directEmail: "Or reach out directly:",
+    copyEmail: "Copy Email",
+    messageSent: "Message sent successfully!",
+    messageFailed: "Failed to send message. Please try again.",
+    emailCopied: "Email copied to clipboard!",
+    projectsList: [
+      { title: "DryShop - Modern E-commerce Ecosystem", desc: "A sophisticated full-stack e-commerce platform built with the VILT stack. Featuring a seamless single-page application experience, it integrates secure payment processing, real-time inventory management, and a dynamic shopping cart system through a Laravel backend and reactive React frontend." },
+      { title: "CareerPath - Job Search & Filtering Portal", desc: "A dynamic job search application focused on high-speed filtering and seamless career discovery. Users can filter opportunities by category, type, and location with real-time updates for a smooth and responsive experience." },
+      { title: "WhatsApp Clone - Real-time Chat UI Application", desc: "A WhatsApp-inspired chat interface with a modern UI, responsive design, and interactive messaging layout. Designed to replicate a core messaging experience for learning frontend development and UI structuring." },
+    ],
+    experience: [
+      { role: "Production Helper", period: "May 2025 - Dec 2025", desc: "Operated high-speed production machinery while adhering strictly to safety (K3) and product quality standards. Contributed to efficient workflow management in a fast-paced manufacturing environment." },
+      { role: "Social Media Advertising", period: "Jan 2021 - Apr 2025", desc: "Managed large-scale ad campaigns across Meta Ads, Google Ads, and TikTok Ads. Utilized data analytics to optimize ad spend and refine target audience segmentation." },
+      { role: "School Operator / Admin", period: "Jan 2018 - Feb 2020", desc: "Managed the national educational information system (Dapodik) for school administration. Coordinated official correspondence and digital reporting for district education offices." },
+    ],
+  },
+} as const;
+
 const Section = ({ id, children, className = "" }: { id: string; children: React.ReactNode; className?: string }) => {
   const { ref, inView } = useInView<HTMLDivElement>();
   return (
@@ -58,6 +158,8 @@ export default function Index({ lang: externalLang = "ID", onLangChange }: Index
       setLang(externalLang);
     }
   }, [externalLang]);
+
+  const t = translations[lang];
 
   const currentResume = lang === "ID" ? resumeID : resumeEN;
   const fileName = `CV_Dery_Supriyadi_${lang}.pdf`;
@@ -104,11 +206,11 @@ const totalCerts = certificateAlbums.reduce(
         throw new Error(data.message || "Failed to send message");
       }
 
-      toast({ title: "Message sent successfully!" });
+      toast({ title: t.messageSent });
       form.reset();
     } catch (error) {
       console.error(error);
-      toast({ title: "Failed to send message. Please try again." });
+      toast({ title: t.messageFailed });
     } finally {
       setSending(false);
     }
@@ -174,7 +276,7 @@ const duplicatedSkills = [...skills, ...skills];
               <div className="absolute -inset-6 rounded-full bg-primary/10 blur-2xl" aria-hidden></div>
               <img
                 src={profileImg}
-                alt="Portrait of the UI/UX designer"
+                alt={t.portraitAlt}
                 loading="lazy"
                 className="relative rounded-full object-cover w-full h-full shadow-xl animate-float"
               />
@@ -183,10 +285,10 @@ const duplicatedSkills = [...skills, ...skills];
           </div>
           <div className="text-left">
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-             Hi, I'm Dery Supriyadi
+             {t.greeting}
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">
-              A results-driven Full-stack Developer and Management graduate (GPA 3.38/4.00) with hands-on experience in full-stack web development (VILT Stack: Vite, Inertia.js, Laravel, React/Tailwind CSS), performance marketing, and digital operations. Proven track record in building scalable applications, managing large-scale ad campaigns across Meta, Google, and TikTok Ads, and handling national educational database systems. Combines strategic management expertise with practical software engineering to deliver high-performing, business-aligned tech solutions.
+              {t.introduction}
             </p>
             <br></br>
             <div className="skills-wrapper">
@@ -206,18 +308,18 @@ const duplicatedSkills = [...skills, ...skills];
       </div>
     </div>
             <p className="mt-8 text-xl">
-              <span className="text-muted-foreground">I'm a </span>
+              <span className="text-muted-foreground">{t.rolePrefix} </span>
               <span className="font-medium text-primary">
-                <Typewriter words={["VILT Stack Developer","Full-Stack Developer","React Developer"]} />
+                <Typewriter words={[...t.roles]} />
               </span>
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href="#projects"><Button>View Projects</Button></a>
-              <a href="#workexperience"><Button>View Experience</Button></a>
+              <a href="#projects"><Button>{t.viewProjects}</Button></a>
+              <a href="#workexperience"><Button>{t.viewExperience}</Button></a>
               <div className="inline-flex items-center rounded-md border border-input bg-background text-sm font-medium hover:bg-accent hover:text-accent-foreground">
               <a href={currentResume} download={fileName} className="flex items-center px-4 py-2">
                 <Download className="h-4 w-4 mr-2" />
-                Download CV
+                {t.downloadCv}
               </a>
               <select 
                 value={lang} 
@@ -244,13 +346,13 @@ const duplicatedSkills = [...skills, ...skills];
       {/* Projects */}
       <Section id="projects">
         <header className="mb-8">
-          <h2 className="text-3xl font-semibold tracking-tight">Projects</h2>
-          <p className="text-muted-foreground mt-2">Selected case studies and experiments.</p>
+          <h2 className="text-3xl font-semibold tracking-tight">{t.projects}</h2>
+          <p className="text-muted-foreground mt-2">{t.projectsDescription}</p>
         </header>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[{img:p1,title:" DryShop — Modern E-commerce Ecosystem", desc: "A sophisticated full-stack e-commerce platform built with the VILT stack. Featuring a seamless single-page application experience, it integrates secure payment processing, real-time inventory management, and a dynamic shopping cart system, all managed through a powerful Laravel backend and a reactive React frontend.", glink:"https://github.com/Dryex-yo/Modern-Ecommerce-Laravel-React-Inertia", llink:"", tech:["Laravel", "React.js", "Inertia.js", "Tailwind CSS", "MySQL"]},
-          {img:p2,title:" CareerPath — Job Search & Filtering Portal", desc: "A dynamic job search application focused on high-speed filtering and seamless career discovery. Built to handle complex queries, it allows users to filter opportunities by category, type, and location with real-time updates, providing a smooth and responsive interface for job seekers.", glink:"https://github.com/Dryex-yo/search-job-app", llink:"", tech: ["Vue.js", "Inertia.js", "Laravel", "Tailwind CSS", "MySQL"]},
-          {img:p3,title:"WhatsApp Clone — Real-time Chat UI Application",desc:"A WhatsApp-inspired chat interface built with a modern UI, featuring responsive design and interactive messaging layout. Designed to replicate core messaging experience for learning front-end development and UI structuring.",glink:"https://github.com/Dryex-yo/whatsapp-clone",llink:"",tech:["React.js","CSS","TypeScript","laravel","Tailwind CSS","Inertia.js","PostgreSQL"]},
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[{img:p1,title:t.projectsList[0].title, desc:t.projectsList[0].desc, glink:"https://github.com/Dryex-yo/Modern-Ecommerce-Laravel-React-Inertia", llink:"", tech:["Laravel", "React.js", "Inertia.js", "Tailwind CSS", "MySQL"]},
+          {img:p2,title:t.projectsList[1].title, desc:t.projectsList[1].desc, glink:"https://github.com/Dryex-yo/search-job-app", llink:"", tech: ["Vue.js", "Inertia.js", "Laravel", "Tailwind CSS", "MySQL"]},
+          {img:p3,title:t.projectsList[2].title, desc:t.projectsList[2].desc,glink:"https://github.com/Dryex-yo/whatsapp-clone",llink:"",tech:["React.js","CSS","TypeScript","laravel","Tailwind CSS","Inertia.js","PostgreSQL"]},
         ].map((p, i) => (
 
             <Card key={i} className="overflow-hidden transition-transform hover:scale-[1.02]">
@@ -266,8 +368,8 @@ const duplicatedSkills = [...skills, ...skills];
                   </div>
                   <br></br>
                   <div className="flex justify-center items-center gap-2">
-                  <a href={p.glink}><Button variant="outline" className="text-muted-foreground"><Github/>Github Repo</Button></a>
-                  {p.llink && <a href={p.llink}><Button variant="outline" className="text-muted-foreground"><SquareArrowOutUpRightIcon/>Live Demo</Button></a> }
+                  <a href={p.glink}><Button variant="outline" className="text-muted-foreground"><Github/>{t.githubRepo}</Button></a>
+                  {p.llink && <a href={p.llink}><Button variant="outline" className="text-muted-foreground"><SquareArrowOutUpRightIcon/>{t.liveDemo}</Button></a> }
                 </div>                
                 </div>
               </CardContent>
@@ -279,32 +381,32 @@ const duplicatedSkills = [...skills, ...skills];
             {/* workexprience */}
       <Section id="workexperience">
         <header className="mb-8">
-          <h2 className="text-3xl font-semibold tracking-tight">Work Experience</h2>
-          <p className="text-muted-foreground mt-2">My professional journey and key accomplishments.</p>
+          <h2 className="text-3xl font-semibold tracking-tight">{t.workExperience}</h2>
+          <p className="text-muted-foreground mt-2">{t.workDescription}</p>
         </header>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[{
             img: nabatiLogo,
             company: "PT Kaldu Sari Nabati Indonesia",
-            role: "Production Helper",
-            period: "May 2025 – Dec 2025",
-            desc: "Operated high-speed production machinery while strict adherence to safety (K3) and product quality standards. Contributed to efficient workflow management in a fast-paced manufacturing environment.",
+            role: t.experience[0].role,
+            period: t.experience[0].period,
+            desc: t.experience[0].desc,
             skills: ["Quality Control (QC)", "Workplace Safety (K3)", "GMP", "Workflow Management"]
           },
           {
             img: metaLogo,
             company: "CV Media Data Putra",
-            role: "Social Media Advertising",
-            period: "Jan 2021 – Apr 2025",
-            desc: "Managed large-scale ad campaigns across Meta Ads, Google Ads, and TikTok Ads. Utilized data analytics to optimize ad spend and refine target audience segmentation.",
+            role: t.experience[1].role,
+            period: t.experience[1].period,
+            desc: t.experience[1].desc,
             skills: ["Performance Marketing", "Meta Ads", "Google Ads", "TikTok Ads", "Budget Optimization"]
           },
           {
             img: dapodikLogo,
             company: "SDN 008 Malinau Kota",
-            role: "School Operator / Admin",
-            period: "Jan 2018 – Feb 2020",
-            desc: "Managed the national educational information system (Dapodik) for school administration. Coordinated official correspondence and digital reporting for district/regency education offices.",
+            role: t.experience[2].role,
+            period: t.experience[2].period,
+            desc: t.experience[2].desc,
             skills: ["Dapodik System", "Database Management", "Data Verification", "Digital Records"]
           },
         ].map((p, i) => (
@@ -353,10 +455,9 @@ const duplicatedSkills = [...skills, ...skills];
       {/* Certifications */}
       <Section id="certifications">
   <header className="mb-8">
-      <h2 className="text-3xl font-semibold tracking-tight">Certifications</h2>
+      <h2 className="text-3xl font-semibold tracking-tight">{t.certifications}</h2>
     <p className="text-muted-foreground mt-2">
-      {totalCerts} certificates across {certificateAlbums.length} platforms —
-      highlights from ongoing learning.
+      {t.certificationDescription(totalCerts, certificateAlbums.length)}
     </p>
   </header>
  
@@ -367,6 +468,9 @@ const duplicatedSkills = [...skills, ...skills];
         album={album}
         isOpen={openAlbumId === album.id}
         onToggle={() => handleToggle(album.id)}
+        certificateLabel={t.certificate}
+        certificatesLabel={t.certificates}
+        noPreviewLabel={t.noPreview}
       />
     ))}
   </div>
@@ -380,9 +484,9 @@ const duplicatedSkills = [...skills, ...skills];
      {/* Contact */}
       <Section id="contact">
         <header className="mb-8 text-center">
-          <h2 className="text-3xl font-semibold tracking-tight">Contact</h2>
+          <h2 className="text-3xl font-semibold tracking-tight">{t.contact}</h2>
           <p className="text-muted-foreground mt-2">
-            Open to new challenges, technical roles, and diverse career opportunities. Let’s connect!
+            {t.contactDescription}
           </p>
         </header>
 
@@ -390,7 +494,7 @@ const duplicatedSkills = [...skills, ...skills];
           <form onSubmit={onSubmit} className="space-y-4">
             <div>
               <label htmlFor="email" className="mb-2 block text-sm font-medium">
-                Email
+                {t.email}
               </label>
               <Input
                 id="email"
@@ -403,12 +507,12 @@ const duplicatedSkills = [...skills, ...skills];
 
             <div>
               <label htmlFor="message" className="mb-2 block text-sm font-medium">
-                Message
+                {t.message}
               </label>
               <Textarea
                 id="message"
                 name="message"
-                placeholder="Tell me about the opportunity, project, or role you're looking to fill..."
+                placeholder={t.messagePlaceholder}
                 rows={5}
                 required
               />
@@ -416,25 +520,25 @@ const duplicatedSkills = [...skills, ...skills];
 
             <Button type="submit" disabled={sending} className="w-full gap-2">
               <Send className="w-4 h-4" />
-              {sending ? "Sending..." : "Send Message"}
+              {sending ? t.sending : t.sendMessage}
             </Button>
           </form>
 
           {/* Direct Email Copy Option */}
           <div className="pt-4 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-muted-foreground">
-            <span>Or reach out directly:</span>
+            <span>{t.directEmail}</span>
             <Button
               type="button"
               variant="outline"
               size="sm"
               onClick={() => {
                 navigator.clipboard.writeText("derysupriyadi1@gmail.com");
-                toast({ title: "Email copied to clipboard!" });
+                toast({ title: t.emailCopied });
               }}
               className="gap-2"
             >
               <Copy className="w-3.5 h-3.5" />
-              Copy Email
+              {t.copyEmail}
             </Button>
           </div>
         </div>

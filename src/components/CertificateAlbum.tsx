@@ -6,9 +6,19 @@ interface Props {
   album: AlbumType;
   isOpen: boolean;
   onToggle: () => void;
+  certificateLabel?: string;
+  certificatesLabel?: string;
+  noPreviewLabel?: string;
 }
 
-const CertificateAlbum = ({ album, isOpen, onToggle }: Props) => {
+const CertificateAlbum = ({
+  album,
+  isOpen,
+  onToggle,
+  certificateLabel = "Certificate",
+  certificatesLabel = "Certificates",
+  noPreviewLabel = "No Preview",
+}: Props) => {
   // Safe Fallback jika certificates kosong
   const certificates = album.certificates || [];
   const coverImage = certificates[0]?.image || "";
@@ -59,7 +69,7 @@ const CertificateAlbum = ({ album, isOpen, onToggle }: Props) => {
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">
-                No Preview
+                {noPreviewLabel}
               </div>
             )}
           </div>
@@ -80,7 +90,7 @@ const CertificateAlbum = ({ album, isOpen, onToggle }: Props) => {
                 className="px-2.5 py-0.5 rounded-full text-xs font-medium text-white"
                 style={{ backgroundColor: `hsl(${album.color})` }}
               >
-                {certificates.length} {certificates.length === 1 ? "Certificate" : "Certificates"}
+                {certificates.length} {certificates.length === 1 ? certificateLabel : certificatesLabel}
               </span>
             </div>
           </div>
