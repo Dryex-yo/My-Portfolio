@@ -29,7 +29,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useInView } from "@/hooks/use-in-view";
 import { Typewriter } from "@/components/Typewriter";
-import { Mail, Linkedin, Github, SquareArrowOutUpRightIcon, Download } from "lucide-react";
+import { Mail, Linkedin, Github, SquareArrowOutUpRightIcon, Download, Copy, Check, Send } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { toast } from "@/hooks/use-toast";
 import "@/App.css";
@@ -65,7 +65,7 @@ const totalCerts = certificateAlbums.reduce(
   0
 );
 
-  /* Email submission */
+  /* Email submission via Web3Forms */
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -77,42 +77,32 @@ const totalCerts = certificateAlbums.reduce(
 
     setSending(true);
 
-    const API_URL =
-    import.meta.env.VITE_API_URL ||
-    "https://portfolio-email-backend-production-597d.up.railway.app/";
+    // Buat FormData untuk dikirim ke Web3Forms
+    const formData = new FormData();
+    formData.append("access_key", import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || "cb642a2f-7661-4343-9d05-789d22aa18d2");
+    formData.append("email", email);
+    formData.append("message", message);
 
     try {
-      const res = await fetch(
-        `${API_URL}/api/contact`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ email, message })
-        }
-      );
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
 
-      let data;
-      try {
-        data = await res.json();
-      } catch {
-        data = null;
-      }
+      const data = await res.json();
 
-      if (!res.ok) {
-        throw new Error(data?.error || "Failed");
+      if (!data.success) {
+        throw new Error(data.message || "Failed to send message");
       }
 
       toast({ title: "Message sent successfully!" });
       form.reset();
-
     } catch (error) {
       console.error(error);
-      toast({ title: "Server error or failed request" });
+      toast({ title: "Failed to send message. Please try again." });
+    } finally {
+      setSending(false);
     }
-
-    setSending(false);
   };
 
   const skills = [
@@ -374,30 +364,72 @@ const duplicatedSkills = [...skills, ...skills];
         <Gallery />
       </Section> */}
 
-      {/* Contact */}
-      <Section id="contact" >
-        <header className="mb-8">
+     {/* Contact */}
+      <Section id="contact">
+        <header className="mb-8 text-center">
           <h2 className="text-3xl font-semibold tracking-tight">Contact</h2>
-          <p className="text-muted-foreground mt-2">Have a project in mind? Let’s chat.</p>
+          <p className="text-muted-foreground mt-2">
+            Open to new challenges, technical roles, and diverse career opportunities. Let’s connect!
+          </p>
         </header>
-        <form onSubmit={onSubmit} className="max-w-xl space-y-4 mx-auto">
-          <div className="items-center">
-            <label htmlFor="email" className="mb-2 block text-sm font-medium">Email</label>
-            <Input id="email" name="email" type="email" placeholder="you@domain.com" required />
+
+        <div className="max-w-xl mx-auto space-y-6">
+          <form onSubmit={onSubmit} className="space-y-4">
+            <div>
+              <label htmlFor="email" className="mb-2 block text-sm font-medium">
+                Email
+              </label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="you@gmail.com"
+                required
+              />
+            </div>
+
+            <div>
+              <label htmlFor="message" className="mb-2 block text-sm font-medium">
+                Message
+              </label>
+              <Textarea
+                id="message"
+                name="message"
+                placeholder="Tell me about the opportunity, project, or role you're looking to fill..."
+                rows={5}
+                required
+              />
+            </div>
+
+            <Button type="submit" disabled={sending} className="w-full gap-2">
+              <Send className="w-4 h-4" />
+              {sending ? "Sending..." : "Send Message"}
+            </Button>
+          </form>
+
+          {/* Direct Email Copy Option */}
+          <div className="pt-4 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-muted-foreground">
+            <span>Or reach out directly:</span>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                navigator.clipboard.writeText("derysupriyadi1@gmail.com");
+                toast({ title: "Email copied to clipboard!" });
+              }}
+              className="gap-2"
+            >
+              <Copy className="w-3.5 h-3.5" />
+              Copy Email
+            </Button>
           </div>
-          <div>
-            <label htmlFor="message" className="mb-2 block text-sm font-medium">Message</label>
-            <Textarea id="message" name="message" placeholder="Tell me about your project..." rows={5} required />
-          </div>
-          <Button type="submit" disabled={sending}>
-  {sending ? "Sending..." : "Send"}
-</Button>
-      </form>
+        </div>
       </Section>
 
       <footer className="border-t">
         <div className="container px-4 py-10 text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Dery Supriyadi. All rights reserved.
+          © {new Date().getFullYear()} Dery Supriyadi,S.M.  All rights reserved.
         </div>
       </footer>
     </main>
