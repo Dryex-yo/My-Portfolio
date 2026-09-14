@@ -180,7 +180,7 @@ const duplicatedSkills = [...skills, ...skills];
              Hi, I'm Dery Supriyadi
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">
-            A results-driven Full-stack Developer and Management graduate with a strong technical foundation in the VILT Stack (Vite, Inertia.js, Laravel, Tailwind CSS). A self-taught programmer with a proven ability to build scalable web applications and real-time communication tools. Leveraging a professional background in Management and Digital Marketing to build technology solutions that are not only high-performing but also aligned with business objectives and market data.
+              A results-driven Full-stack Developer and Management graduate (GPA 3.38/4.00) with hands-on experience in full-stack web development (VILT Stack: Vite, Inertia.js, Laravel, React/Tailwind CSS), performance marketing, and digital operations. Proven track record in building scalable applications, managing large-scale ad campaigns across Meta, Google, and TikTok Ads, and handling national educational database systems. Combines strategic management expertise with practical software engineering to deliver high-performing, business-aligned tech solutions.
             </p>
             <br></br>
             <div className="skills-wrapper">
